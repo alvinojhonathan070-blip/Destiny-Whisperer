@@ -1,10 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import Lenis from 'lenis'
+import gsap from 'gsap'
+import 'lenis/dist/lenis.css'
 import logo from './assets/logo.webp'
 import SpecularButton from './components/SpecularButton';
 import GradientASCII from './components/GradientASCII';
 import CircularCarousel from './components/CircularCarousel';
 import StarBorder from './components/StarBorder';
 import CountUp from './components/CountUp'
+import StaggeredMenu from './components/StaggeredMenu';
 
 import img1 from './assets/img1.webp';
 import img2 from './assets/img2.webp';
@@ -24,10 +28,73 @@ const items = [
   {src: img7}
 ];
 
+const menuItems = [
+  { label: 'Beranda', ariaLabel: 'Ke beranda', link: '#home' },
+  { label: 'Tentang Kami', ariaLabel: 'Ke tentang kami', link: '#about' },
+  { label: 'Layanan', ariaLabel: 'Ke layanan', link: '#service' },
+  { label: 'Testimoni', ariaLabel: 'Ke testimoni', link: '#testimoni' },
+  { label: 'Tanya Jawab', ariaLabel: 'Ke tanya jawab', link: '#faq' },
+  { label: 'Hubungi Saya', ariaLabel: 'Hubungi lewat Instagram', link: 'https://ig.me/destiny_whisperer/' },
+]
+
+const socialItems = [
+  { label: 'Instagram', link: 'https://ig.me/destiny_whisperer/' },
+]
+
 function App() {
+  const lenisRef = useRef(null)
+  const overlayRef = useRef(null)
+
+  const openService = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const overlay = overlayRef.current
+    const lenis = lenisRef.current
+
+    lenis.stop()
+
+    gsap.set(overlay, {
+      display: 'block',
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height,
+      borderRadius: 30,
+      opacity: 1,
+    })
+
+    gsap.timeline()
+      .to(overlay, {
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100dvh',
+        borderRadius: 0,
+        duration: 0.7,
+        ease: 'power3.inOut',
+      })
+      .add(() => lenis.scrollTo('#service', { immediate: true, force: true, offset: -80 }))
+      .to(overlay, {
+        opacity: 0,
+        duration: 0.5,
+        onComplete: () => {
+          gsap.set(overlay, { display: 'none' })
+          lenis.start()
+        },
+      })
+  }
+
   const [showBg, setShowBg] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [vw, setVw] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280)
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+      anchors: { offset: -80 },
+    })
+    lenisRef.current = lenis
+
+    return () => lenis.destroy()
+  }, [])
 
   useEffect(() => {
     const onResize = () => setVw(window.innerWidth)
@@ -37,8 +104,8 @@ function App() {
 
   const isMobile = vw < 640
   const isTablet = vw >= 640 && vw < 1024
-  const carouselCardWidth = isMobile ? 520 : isTablet ? 760 : 1000
-  const carouselPerspective = isMobile ? 2200 : isTablet ? 2800 : 3500
+  const carouselCardWidth = vw < 640 ? 520 : vw < 1024 ? 760 : vw < 1280 ? 560 : vw < 1536 ? 720 : 1000
+  const carouselPerspective = vw < 640 ? 2200 : vw < 1024 ? 2800 : vw < 1536 ? 3000 : 3500
   const carouselGap = isMobile ? 12 : isTablet ? 18 : 25
 
   useEffect(() => {
@@ -68,24 +135,25 @@ function App() {
 
   return (
   <div className="overflow-x-hidden">
+    <div ref={overlayRef} className="fixed z-60 hidden bg-white" />
   <header>
-    <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b-gold/80 border-b-2 bg-cream px-4 py-3 text-ink shadow-lg shadow-maroon/10 md:px-10 md:py-4">
+    {/* Navbar desktop */}
+    <nav className="fixed inset-x-0 top-0 z-50 hidden items-center justify-between border-b-gold/80 border-b-2 bg-cream px-10 py-4 text-ink shadow-lg shadow-maroon/10 lg:flex">
   <div className="flex items-center gap-3">
     <img
       src={logo}
       loading="eager"
       decoding="async"
       alt="Logo Destiny Whisperer"
-      className="w-9 object-contain md:w-10"
+      className="w-10 object-contain"
     />
     <p className="font-brand text-ink">
-      <span className="block text-xs font-semibold leading-tight md:text-base">Destiny Whisperer</span>
+      <span className="block text-base font-semibold leading-tight">Destiny Whisperer</span>
       <span className="block font-body text-xs leading-tight text-ink/75">BaZi &amp; Zi Wei Dou Shu</span>
-    </p>  
+    </p>
   </div>
 
-  {/* Menu desktop */}
-  <ul className="hidden items-center gap-6 font-heading text-md tracking-normal lg:flex">
+  <ul className="flex items-center gap-6 font-heading text-md tracking-normal">
     <li><a href="#home" className="nav-item transition">Beranda</a></li>
     <li><a href="#about" className="nav-item transition">Tentang Kami</a></li>
     <li><a href="#service" className="nav-item transition">Layanan</a></li>
@@ -102,47 +170,44 @@ function App() {
   </a>
     </li>
   </ul>
+    </nav>
 
-  {/* Tombol hamburger (tablet & hp) */}
-    <a
-    target="_blank"
-    rel="noreferrer"
-    href="https://ig.me/destiny_whisperer/"
-    className="lg:hidden rounded-full bg-maroon px-4 py-2.5 font-body text-xs font-medium text-cream shadow-[1px_1px_5px_#a87a1e] shadow-gold transition duration-150 hover:scale-105 hover:bg-ink active:scale-100"
-  >
-  Hubungi Saya
-  </a>
+    {/* Navbar tablet & hp */}
+    <nav className="fixed inset-x-0 top-0 z-30 flex h-16 items-center justify-between border-b-2 border-b-gold/80 bg-cream px-4 shadow-lg shadow-maroon/10 md:h-[4.5rem] md:px-10 lg:hidden">
+      <div className="flex items-center gap-3">
+        <img
+          src={logo}
+          loading="eager"
+          decoding="async"
+          alt="Logo Destiny Whisperer"
+          className="w-9 object-contain md:w-10"
+        />
+        <p className="font-brand text-ink">
+          <span className="block text-xs font-semibold leading-tight md:text-base">Destiny Whisperer</span>
+          <span className="block font-body text-xs leading-tight text-ink/75">BaZi &amp; Zi Wei Dou Shu</span>
+        </p>
+      </div>
+    </nav>
 
-  <button
-    type="button"
-    aria-label={menuOpen ? 'Tutup menu' : 'Buka menu'}
-    aria-expanded={menuOpen}
-    onClick={() => setMenuOpen((v) => !v)}
-    className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-md lg:hidden"
-  >
-    <span className={`block h-0.5 w-6 bg-ink transition-transform duration-200 ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
-    <span className={`block h-0.5 w-6 bg-ink transition-opacity duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
-    <span className={`block h-0.5 w-6 bg-ink transition-transform duration-200 ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
-  </button>
+    {/* Tombol menu tablet & hp (duduk di atas navbar) */}
+    <div className="lg:hidden">
+      <StaggeredMenu
+        position="right"
+        items={menuItems}
+        socialItems={socialItems}
+        displaySocials
+        displayItemNumbering={false}
+        menuButtonColor="#1a1a1a"
+        openMenuButtonColor="#1a1a1a"
+        changeMenuColorOnOpen
+        colors={['#d4a84b', '#7d1616']}
+        accentColor="#8b1a1a"
+        isFixed
+        showLogo={false}
+        compact
+      />
+    </div>
 
-  {/* Menu dropdown (tablet & hp) */}
-  <ul
-    className={`absolute font-heading inset-x-0 top-full flex flex-col gap-1 border-b-2 border-b-gold/80 bg-cream px-4 py-4 font-heading text-md shadow-lg shadow-maroon/10 md:px-10 lg:hidden ${menuOpen ? 'flex' : 'hidden'}`}
-  >
-    <li><a href="#home" onClick={() => setMenuOpen(false)} className="nav-item block py-2 transition">Beranda</a></li>
-    <hr />
-    <li><a href="#about" onClick={() => setMenuOpen(false)} className="nav-item block py-2 transition">Tentang Kami</a></li>
-    <hr />
-    <li><a href="#service" onClick={() => setMenuOpen(false)} className="nav-item block py-2 transition">Layanan</a></li>
-    <hr />
-    <li><a href="#testimoni" onClick={() => setMenuOpen(false)} className="nav-item block py-2 transition">Testimoni</a></li>
-    <hr />
-    <li><a href="#faq" onClick={() => setMenuOpen(false)} className="nav-item block py-2 transition">Tanya Jawab</a></li>
-    <hr />
-    <li className="pt-2">
-    </li>
-  </ul>
-      </nav>
   <section id="home" className="relative min-h-dvh h-auto w-full bg-cream">
      <div
     className={`absolute inset-0 transition-opacity duration-1000 ${showBg ? 'opacity-100' : 'opacity-0'}`}
@@ -176,10 +241,10 @@ lightMode
 
   <div className="relative z-10 grid min-h-dvh grid-cols-1 items-center gap-8 px-5 pb-10 pt-28 sm:px-8 md:px-12 lg:mt-[3%] lg:grid-cols-2 lg:gap-12 lg:px-24 lg:pb-0 lg:pt-0">
     <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-      <h1 className="font-brand text-5xl font-extrabold tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
+      <h1 className="text-shadow-black text-shadow-sm font-brand text-5xl font-extrabold tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
         Destiny
         <br />
-        <span className="text-maroon">Whisperer</span>
+        <span className="text-shadow-maroon text-shadow-md text-maroon">Whisperer</span>
       </h1>
 
       <p className="mt-6 max-w-md font-body text-base font-medium leading-relaxed text-ink/85 md:mt-8 md:text-lg">
@@ -187,6 +252,7 @@ lightMode
       </p>
 
       <div className="mt-6 flex flex-row gap-x-3">
+  <a target='_blank' rel="noreferrer" href='https://ig.me/destiny_whisperer/'>
   <SpecularButton
   size="md"
   radius={40}
@@ -207,7 +273,14 @@ lightMode
 >
 Konsultasi Sekarang
 </SpecularButton>
-<StarBorder
+</a>
+<StarBorder 
+  href="#service"
+  onClick = {(e) => {
+    e.preventDefault()
+    openService(e)
+  }}
+
   color="#f5b128"
   trailColor="#f5b128"
   duration={7.5}
