@@ -57,39 +57,61 @@ function About() {
 
         {/* Kanan: empat pilar BaZi */}
         <div aria-label="Empat pilar dalam BaZi" className="flex flex-col gap-4">
-          <div className="grid grid-cols-4 items-end gap-2 sm:gap-4">
-            {pillars.map((p) => (
-              <div
-                key={p.glyph}
-                className={`flex flex-col items-center justify-between rounded-t-full border px-1.5 pb-5 pt-8 text-center sm:px-3 sm:pb-6 sm:pt-10 ${
-                  p.main
-                    ? 'h-72 border-maroon bg-maroon text-cream shadow-lg shadow-maroon/20 sm:h-96'
-                    : 'h-60 border-gold/60 bg-white/70 text-ink sm:h-80'
-                }`}
-              >
-                <span
-                  className={`font-brand text-4xl font-bold sm:text-5xl md:text-6xl ${
-                    p.main ? 'text-cream' : 'text-maroon'
-                  }`}
-                >
-                  {p.glyph}
-                </span>
+  <div className="grid grid-cols-4 items-end gap-2 sm:gap-4">
+    {pillars.map((p) => (
+      <div
+        key={p.glyph}
+        className={`group relative flex cursor-default flex-col items-center justify-between overflow-hidden rounded-t-full border px-1.5 pb-5 pt-8 text-center transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2 sm:px-3 sm:pb-6 sm:pt-10 ${
+          p.main
+            ? 'h-72 border-maroon bg-maroon text-cream shadow-lg shadow-maroon/20 hover:border-gold/70 hover:shadow-[0_18px_40px_-10px_rgba(128,0,0,0.45)] sm:h-96'
+            : 'h-60 border-gold/60 bg-white/75 text-ink backdrop-blur-xs hover:border-maroon/50 hover:bg-white hover:shadow-[0_16px_35px_-10px_rgba(168,122,30,0.28)] sm:h-80'
+        }`}
+      >
+        {/* Inner architectural arch hairline */}
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-1.5 rounded-t-full border transition-colors duration-500 ${
+            p.main
+              ? 'border-cream/15 group-hover:border-gold/45'
+              : 'border-gold/25 group-hover:border-gold/60'
+          }`}
+        />
 
-                <div className="flex flex-col gap-1">
-                  <span className="font-heading text-[11px] font-semibold leading-tight sm:text-sm">
-                    {p.label}
-                  </span>
-                  <span
-                    className={`hidden font-body text-xs leading-snug sm:block ${
-                      p.main ? 'text-cream/80' : 'text-ink/70'
-                    }`}
-                  >
-                    {p.note}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Subtle ambient radial glow on hover */}
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute -top-10 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 ${
+            p.main ? 'bg-gold/25' : 'bg-gold/20'
+          }`}
+        />
+
+        <span
+          className={`relative z-10 font-brand text-4xl font-bold transition-transform duration-500 ease-out group-hover:scale-105 sm:text-5xl md:text-6xl ${
+            p.main
+              ? 'text-cream drop-shadow-[0_2px_10px_rgba(255,255,255,0.15)]'
+              : 'text-maroon group-hover:text-maroon/90'
+          }`}
+        >
+          {p.glyph}
+        </span>
+
+        <div className="relative z-10 flex flex-col gap-1 transition-transform duration-500 ease-out group-hover:-translate-y-0.5">
+          <span className="font-heading text-[11px] font-semibold leading-tight tracking-wide sm:text-sm">
+            {p.label}
+          </span>
+          <span
+            className={`hidden font-body text-xs leading-snug transition-colors duration-300 sm:block ${
+              p.main
+                ? 'text-cream/80 group-hover:text-cream'
+                : 'text-ink/70 group-hover:text-ink/90'
+            }`}
+          >
+            {p.note}
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
 
           <p className="font-body text-sm leading-relaxed text-ink/70">
             Pilar Hari menjadi pusat pembacaan BaZi, karena menggambarkan dirimu sendiri.

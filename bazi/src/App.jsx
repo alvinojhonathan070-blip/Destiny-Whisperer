@@ -9,6 +9,7 @@ import CircularCarousel from './components/CircularCarousel';
 import StarBorder from './components/StarBorder';
 import CountUp from './components/CountUp'
 import StaggeredMenu from './components/StaggeredMenu';
+import HorizontalGallery from './components/HorizontalGallery';
 
 import img1 from './assets/img1.webp';
 import img2 from './assets/img2.webp';
@@ -173,7 +174,7 @@ function App() {
     </nav>
 
     {/* Navbar tablet & hp */}
-    <nav className="fixed inset-x-0 top-0 z-30 flex h-16 items-center justify-between border-b-2 border-b-gold/80 bg-cream px-4 shadow-lg shadow-maroon/10 md:h-[4.5rem] md:px-10 lg:hidden">
+    <nav className="fixed inset-x-0 top-0 z-30 flex h-16 items-center justify-between border-b-2 border-b-gold/80 bg-cream px-4 shadow-lg shadow-maroon/10 md:h-18 md:px-10 lg:hidden">
       <div className="flex items-center gap-3">
         <img
           src={logo}
@@ -205,6 +206,7 @@ function App() {
         isFixed
         showLogo={false}
         compact
+        showText={false}
       />
     </div>
 
@@ -251,53 +253,52 @@ lightMode
         Baca karakter, jodoh, rejeki, dan peluang tahunanmu lewat tanggal, bulan, tahun, dan jam lahir. Ambil keputusan dengan lebih tenang.
       </p>
 
-      <div className="mt-6 flex flex-row gap-x-3">
+<div className="mt-6 flex flex-row flex-nowrap items-center justify-center gap-x-2 sm:gap-x-3 lg:justify-start [&>*]:shrink-0 [&_*]:whitespace-nowrap max-sm:[&_*]:text-[13px]">
   <a target='_blank' rel="noreferrer" href='https://ig.me/destiny_whisperer/'>
-  <SpecularButton
-  size="md"
-  radius={40}
-  tint="#8d1e1a"
-  tintOpacity={1}
-  textColor="#fafafa"
-  lineColor="#ffffff"
-  baseColor="#ffffff"
-  intensity={1}
-  idleIntensity={0.35}
-  shineSize={10}
-  shineFade={34}
-  thickness={1.2}
-  glow={1}
-  followMouse
-  proximity={250}
-  onClick={() => console.log('clicked')}
->
-Konsultasi Sekarang
-</SpecularButton>
-</a>
-<StarBorder 
-  href="#service"
-  onClick = {(e) => {
-    e.preventDefault()
-    openService(e)
-  }}
-
-  color="#f5b128"
-  trailColor="#f5b128"
-  duration={7.5}
-  direction="clockwise"
-  stars={1}
-  trailLength={0.45}
-  thickness={1}
-  radius={30}
-  glow={1}
-  hover="lap"
-  sparkle={false}
-  clickPulse
-  theme="light"
->
-  Lihat Layanan
-</StarBorder>
-      </div>
+    <SpecularButton
+      size="md"
+      radius={40}
+      tint="#8d1e1a"
+      tintOpacity={1}
+      textColor="#fafafa"
+      lineColor="#ffffff"
+      baseColor="#ffffff"
+      intensity={1}
+      idleIntensity={0.35}
+      shineSize={10}
+      shineFade={34}
+      thickness={1.2}
+      glow={1}
+      followMouse
+      proximity={250}
+      onClick={() => console.log('clicked')}
+    >
+      Konsultasi Sekarang
+    </SpecularButton>
+  </a>
+  <StarBorder
+    href="#service"
+    onClick={(e) => {
+      e.preventDefault()
+      openService(e)
+    }}
+    color="#f5b128"
+    trailColor="#f5b128"
+    duration={7.5}
+    direction="clockwise"
+    stars={1}
+    trailLength={0.45}
+    thickness={1}
+    radius={30}
+    glow={1}
+    hover="lap"
+    sparkle={false}
+    clickPulse
+    theme="light"
+  >
+    Lihat Layanan
+  </StarBorder>
+</div>
 
 <div className='mt-8 flex flex-row justify-center gap-x-8 gap-y-4 font-body cursor-alias sm:gap-x-10 lg:mt-[5%] lg:justify-start lg:gap-[10%]'>
 <div className='flex flex-row items-center gap-2 lg:gap-[8%]'>
@@ -373,7 +374,7 @@ Konsultasi Sekarang
     </div>
 
     <div
-      className="relative h-[260px] w-full sm:h-[380px] md:h-[460px] lg:h-[560px]"
+      className="relative h-65 w-full sm:h-95 md:h-115 lg:h-140"
       style={{ width: '100%', position: 'relative' }}
     >
       <CircularCarousel

@@ -20,6 +20,7 @@ export const StaggeredMenu = ({
   closeOnClickAway = true,
   showLogo = true,
   compact = false,
+  showText = true,
   onMenuOpen,
   onMenuClose
 }) => {
@@ -32,6 +33,7 @@ export const StaggeredMenu = ({
 
   const plusHRef = useRef(null);
   const plusVRef = useRef(null);
+  const plusMidRef = useRef(null);
   const iconRef = useRef(null);
 
   const textInnerRef = useRef(null);
@@ -73,8 +75,9 @@ export const StaggeredMenu = ({
         gsap.set(preContainer, { xPercent: 0, opacity: 1 });
       }
 
-      gsap.set(plusH, { transformOrigin: '50% 50%', rotate: 0 });
-      gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 90 });
+      gsap.set(plusH, { transformOrigin: '50% 50%', rotate: 0, y: 0 });
+      gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 0, y: 0 });
+      if (plusMidRef.current) gsap.set(plusMidRef.current, { transformOrigin: '50% 50%', opacity: 1, scaleX: 1 });
       gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' });
 
       gsap.set(textInner, { yPercent: 0 });
@@ -222,24 +225,25 @@ export const StaggeredMenu = ({
 
   const animateIcon = useCallback(opening => {
     const icon = iconRef.current;
-    const h = plusHRef.current;
-    const v = plusVRef.current;
-    if (!icon || !h || !v) return;
+    const top = plusHRef.current;
+    const bottom = plusVRef.current;
+    const mid = plusMidRef.current;
+    if (!icon || !top || !bottom || !mid) return;
 
     spinTweenRef.current?.kill();
 
     if (opening) {
-      gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' });
       spinTweenRef.current = gsap
         .timeline({ defaults: { ease: 'power4.out' } })
-        .to(h, { rotate: 45, duration: 0.5 }, 0)
-        .to(v, { rotate: -45, duration: 0.5 }, 0);
+        .to(top, { y: 6, rotate: 45, duration: 0.5 }, 0)
+        .to(bottom, { y: -6, rotate: -45, duration: 0.5 }, 0)
+        .to(mid, { opacity: 0, scaleX: 0, duration: 0.25 }, 0);
     } else {
       spinTweenRef.current = gsap
         .timeline({ defaults: { ease: 'power3.inOut' } })
-        .to(h, { rotate: 0, duration: 0.35 }, 0)
-        .to(v, { rotate: 90, duration: 0.35 }, 0)
-        .to(icon, { rotate: 0, duration: 0.001 }, 0);
+        .to(top, { y: 0, rotate: 0, duration: 0.35 }, 0)
+        .to(bottom, { y: 0, rotate: 0, duration: 0.35 }, 0)
+        .to(mid, { opacity: 1, scaleX: 1, duration: 0.3, delay: 0.1 }, 0);
     }
   }, []);
 
@@ -418,6 +422,7 @@ export const StaggeredMenu = ({
               ref={textWrapRef}
               className="sm-toggle-textWrap relative inline-block h-[1em] overflow-hidden whitespace-nowrap w-[var(--sm-toggle-width,auto)] min-w-[var(--sm-toggle-width,auto)]"
               aria-hidden="true"
+              style={showText ? undefined : { display: 'none' }}
             >
               <span ref={textInnerRef} className="sm-toggle-textInner flex flex-col leading-none">
                 {textLines.map((l, i) => (
@@ -430,17 +435,12 @@ export const StaggeredMenu = ({
 
             <span
               ref={iconRef}
-              className="sm-icon relative w-[14px] h-[14px] shrink-0 inline-flex items-center justify-center [will-change:transform]"
+              className="sm-icon relative shrink-0 inline-flex flex-col justify-center [will-change:transform]"
               aria-hidden="true"
             >
-              <span
-                ref={plusHRef}
-                className="sm-icon-line absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform]"
-              />
-              <span
-                ref={plusVRef}
-                className="sm-icon-line sm-icon-line-v absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform]"
-              />
+              <span ref={plusHRef} className="sm-icon-line" />
+              <span ref={plusMidRef} className="sm-icon-line" />
+              <span ref={plusVRef} className="sm-icon-line" />
             </span>
           </button>
         </header>
@@ -491,7 +491,7 @@ export const StaggeredMenu = ({
             </ul>
 
             {displaySocials && socialItems && socialItems.length > 0 && (
-              <div className="sm-socials mt-auto pt-8 flex flex-col gap-3" aria-label="Social links">
+              <div className="sm-socials flex flex-col gap-3" aria-label="Social links">
                 <h3 className="sm-socials-title m-0 text-base font-medium [color:var(--sm-accent,#ff0000)]">Socials</h3>
                 <ul
                   className="sm-socials-list list-none m-0 p-0 flex flex-row items-center gap-4 flex-wrap"
@@ -530,9 +530,9 @@ export const StaggeredMenu = ({
 .sm-scope .sm-toggle-textWrap { position: relative; margin-right: 0.5em; display: inline-block; height: 1em; overflow: hidden; white-space: nowrap; width: var(--sm-toggle-width, auto); min-width: var(--sm-toggle-width, auto); }
 .sm-scope .sm-toggle-textInner { display: flex; flex-direction: column; line-height: 1; }
 .sm-scope .sm-toggle-line { display: block; height: 1em; line-height: 1; }
-.sm-scope .sm-icon { position: relative; width: 14px; height: 14px; flex: 0 0 14px; display: inline-flex; align-items: center; justify-content: center; will-change: transform; }
+.sm-scope .sm-icon { position: relative; width: 20px; height: 14px; flex: 0 0 20px; display: inline-flex; flex-direction: column; align-items: stretch; justify-content: space-between; will-change: transform; }
 .sm-scope .sm-panel-itemWrap { position: relative; overflow: hidden; line-height: 1; }
-.sm-scope .sm-icon-line { position: absolute; left: 50%; top: 50%; width: 100%; height: 2px; background: currentColor; border-radius: 2px; transform: translate(-50%, -50%); will-change: transform; }
+.sm-scope .sm-icon-line { display: block; width: 100%; height: 2px; background: currentColor; border-radius: 2px; will-change: transform; }
 .sm-scope .sm-line { display: none !important; }
 .sm-scope .staggered-menu-panel { position: absolute; top: 0; right: 0; width: clamp(260px, 38vw, 420px); height: 100%; background: white; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; padding: 6em 2em 2em 2em; overflow-y: auto; z-index: 10; }
 .sm-scope [data-position='left'] .staggered-menu-panel { right: auto; left: 0; }
@@ -540,7 +540,7 @@ export const StaggeredMenu = ({
 .sm-scope [data-position='left'] .sm-prelayers { right: auto; left: 0; }
 .sm-scope .sm-prelayer { position: absolute; top: 0; right: 0; height: 100%; width: 100%; transform: translateX(0); }
 .sm-scope .sm-panel-inner { flex: 1; display: flex; flex-direction: column; gap: 1.25rem; }
-.sm-scope .sm-socials { margin-top: auto; padding-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.sm-scope .sm-socials { margin-top: 1rem; padding-top: 0; display: flex; flex-direction: column; gap: 0.75rem; }
 .sm-scope .sm-socials-title { margin: 0; font-size: 1rem; font-weight: 500; color: var(--sm-accent, #ff0000); }
 .sm-scope .sm-socials-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: row; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .sm-scope .sm-socials-list .sm-socials-link { opacity: 1; transition: opacity 0.3s ease; }
