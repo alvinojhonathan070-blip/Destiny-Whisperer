@@ -51,7 +51,6 @@ export default function HorizontalGallery() {
     () => {
       const track = trackRef.current;
 
-      // Hitung jarak geser secara real-time setiap kali ukuran ter-update
       const getScrollAmount = () => {
         const totalWidth = track.scrollWidth;
         const viewportWidth = document.documentElement.clientWidth;
@@ -66,7 +65,7 @@ export default function HorizontalGallery() {
           pin: true,
           scrub: 2,
           start: 'top top',
-          end: () => `+=${Math.abs(getScrollAmount()) * 0.8}`,
+          end: () => `+=${Math.abs(getScrollAmount()) * 2.0}`,
           invalidateOnRefresh: true,
         },
       });
@@ -79,7 +78,6 @@ export default function HorizontalGallery() {
       ref={sectionRef}
       className="relative flex h-screen w-full items-center overflow-hidden bg-maroon"
     >
-      {/* Tambahkan pr-12 md:pr-24 agar kartu terakhir berhenti sejajar rapi di kanan */}
       <div ref={trackRef} className="flex w-max flex-nowrap items-center gap-8 px-12 md:px-24">
         {galleryImages.map((item) => (
           <div

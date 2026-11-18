@@ -5,6 +5,8 @@ import App from './App.jsx'
 import Service from './Service'
 import About from './About'
 import Gallery from './Gallery'
+import Faq from './Faq'
+import Footer from './Footer'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -12,5 +14,7 @@ createRoot(document.getElementById('root')).render(
     <Gallery />
     <About />
     <Service />
+    <Faq />
+    <Footer />
   </StrictMode>,
 )

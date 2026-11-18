@@ -9,7 +9,6 @@ import CircularCarousel from './components/CircularCarousel';
 import StarBorder from './components/StarBorder';
 import CountUp from './components/CountUp'
 import StaggeredMenu from './components/StaggeredMenu';
-import HorizontalGallery from './components/HorizontalGallery';
 
 import img1 from './assets/img1.webp';
 import img2 from './assets/img2.webp';
@@ -138,7 +137,7 @@ function App() {
   <div className="overflow-x-hidden">
     <div ref={overlayRef} className="fixed z-60 hidden bg-white" />
   <header>
-    {/* Navbar desktop */}
+
     <nav className="fixed inset-x-0 top-0 z-50 hidden items-center justify-between border-b-gold/80 border-b-2 bg-cream px-10 py-4 text-ink shadow-lg shadow-maroon/10 lg:flex">
   <div className="flex items-center gap-3">
     <img
@@ -158,8 +157,7 @@ function App() {
     <li><a href="#home" className="nav-item transition">Beranda</a></li>
     <li><a href="#about" className="nav-item transition">Tentang Kami</a></li>
     <li><a href="#service" className="nav-item transition">Layanan</a></li>
-    <li><a href="#testimoni" className="nav-item transition">Testimoni</a></li>
-    <li><a href="#faq" className="nav-item transition">Tanya Jawab</a></li>
+    <li><a href="#faq" className="nav-item transition">FAQ</a></li>
     <li>
   <a
     target="_blank"
@@ -305,7 +303,7 @@ lightMode
 <div className='flex flex-row gap-0 items-center'>
 <CountUp
   from={0}
-  to={100}
+  to={2000}
   mode="count"
   easing="easeOut"
   format="standard"

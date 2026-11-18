@@ -22,7 +22,7 @@ function About() {
   return (
     <section
       id="about"
-      className="relative min-h-dvh h-auto w-full overflow-hidden bg-cream px-5 py-20 sm:px-8 md:px-12 md:py-28 lg:px-12 xl:px-16 2xl:px-24"
+      className="relative h-auto w-full overflow-hidden bg-cream px-5 py-20 sm:px-8 md:px-12 md:py-28 lg:px-12 xl:px-16 2xl:px-24"
     >
       <div className="mx-auto grid max-w-8xl grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col">
@@ -55,7 +55,6 @@ function About() {
           </div>
         </div>
 
-        {/* Kanan: empat pilar BaZi */}
         <div aria-label="Empat pilar dalam BaZi" className="flex flex-col gap-4">
   <div className="grid grid-cols-4 items-end gap-2 sm:gap-4">
     {pillars.map((p) => (
@@ -67,7 +66,7 @@ function About() {
             : 'h-60 border-gold/60 bg-white/75 text-ink backdrop-blur-xs hover:border-maroon/50 hover:bg-white hover:shadow-[0_16px_35px_-10px_rgba(168,122,30,0.28)] sm:h-80'
         }`}
       >
-        {/* Inner architectural arch hairline */}
+
         <div
           aria-hidden="true"
           className={`pointer-events-none absolute inset-1.5 rounded-t-full border transition-colors duration-500 ${
@@ -77,7 +76,6 @@ function About() {
           }`}
         />
 
-        {/* Subtle ambient radial glow on hover */}
         <div
           aria-hidden="true"
           className={`pointer-events-none absolute -top-10 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 ${
