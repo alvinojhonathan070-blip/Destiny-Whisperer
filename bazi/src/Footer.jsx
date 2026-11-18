@@ -6,7 +6,6 @@ const navLinks = [
   { label: 'Beranda', href: '#home' },
   { label: 'Tentang Kami', href: '#about' },
   { label: 'Layanan', href: '#service' },
-  { label: 'Testimoni', href: '#testimoni' },
   { label: 'Tanya Jawab', href: '#faq' },
 ]
 
@@ -46,16 +45,6 @@ function Footer() {
                 className="transition hover:text-gold"
               >
                 Instagram @destiny_whisperer
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://wa.me/62XXXXXXXXXX"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition hover:text-gold"
-              >
-                WhatsApp
               </a>
             </li>
             <li>Jakarta</li>
