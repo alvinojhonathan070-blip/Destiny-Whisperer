@@ -32,7 +32,6 @@ const menuItems = [
   { label: 'Beranda', ariaLabel: 'Ke beranda', link: '#home' },
   { label: 'Tentang Kami', ariaLabel: 'Ke tentang kami', link: '#about' },
   { label: 'Layanan', ariaLabel: 'Ke layanan', link: '#service' },
-  { label: 'Testimoni', ariaLabel: 'Ke testimoni', link: '#testimoni' },
   { label: 'Tanya Jawab', ariaLabel: 'Ke tanya jawab', link: '#faq' },
   { label: 'Hubungi Saya', ariaLabel: 'Hubungi lewat Instagram', link: 'https://ig.me/destiny_whisperer/' },
 ]
@@ -171,7 +170,6 @@ function App() {
   </ul>
     </nav>
 
-    {/* Navbar tablet & hp */}
     <nav className="fixed inset-x-0 top-0 z-30 flex h-16 items-center justify-between border-b-2 border-b-gold/80 bg-cream px-4 shadow-lg shadow-maroon/10 md:h-18 md:px-10 lg:hidden">
       <div className="flex items-center gap-3">
         <img
