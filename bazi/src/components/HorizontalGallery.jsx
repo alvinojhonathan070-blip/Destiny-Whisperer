@@ -31,16 +31,6 @@ const galleryImages = [
     alt: 'Upacara teh tradisional',
     image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=900&q=80',
   },
-  {
-    id: '06',
-    alt: 'Arsitektur paviliun taman klasik',
-    image: 'https://images.unsplash.com/photo-1537531383496-f4749b8032cf?w=900&q=80',
-  },
-  {
-    id: '07',
-    alt: 'Ornamen ukiran kayu dan emas',
-    image: 'https://images.unsplash.com/photo-1513415277900-a62401e19be4?w=900&q=80',
-  },
 ];
 
 export default function HorizontalGallery() {
@@ -65,7 +55,7 @@ export default function HorizontalGallery() {
           pin: true,
           scrub: 2,
           start: 'top top',
-          end: () => `+=${Math.abs(getScrollAmount()) * 2.0}`,
+          end: () => `+=${Math.abs(getScrollAmount()) * 0.8}`,
           invalidateOnRefresh: true,
         },
       });
@@ -82,7 +72,7 @@ export default function HorizontalGallery() {
         {galleryImages.map((item) => (
           <div
             key={item.id}
-            className="group relative h-[64vh] w-[82vw] shrink-0 overflow-hidden rounded-2xl border border-gold/40 bg-maroon/60 shadow-[0_20px_50px_rgba(0,0,0,0.45)] transition-colors duration-500 hover:border-gold sm:w-[380px] md:w-[440px]"
+            className="group relative h-[64vh] w-[40vw] shrink-0 overflow-hidden rounded-2xl border border-gold/40 bg-maroon/60 shadow-[0_20px_50px_rgba(0,0,0,0.45)] transition-colors duration-500 hover:border-gold sm:w-[380px] md:w-[440px]"
           >
             <div
               aria-hidden="true"
