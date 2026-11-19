@@ -72,7 +72,7 @@ export default function HorizontalGallery() {
         {galleryImages.map((item) => (
           <div
             key={item.id}
-            className="group relative h-[64vh] w-[40vw] shrink-0 overflow-hidden rounded-2xl border border-gold/40 bg-maroon/60 shadow-[0_20px_50px_rgba(0,0,0,0.45)] transition-colors duration-500 hover:border-gold sm:w-[380px] md:w-[440px]"
+            className="group relative h-[64vh] w-[82vw] shrink-0 overflow-hidden rounded-2xl border border-gold/40 bg-maroon/60 shadow-[0_20px_50px_rgba(0,0,0,0.45)] transition-colors duration-500 hover:border-gold sm:w-[380px] md:w-[440px]"
           >
             <div
               aria-hidden="true"
