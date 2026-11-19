@@ -32,7 +32,7 @@ function About() {
 
           <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-ink/85 md:text-lg">
             Destiny Whisperer membantu kamu memahami karakter, hubungan, rejeki, dan peluang
-            lewat dua metode klasik Tionghoa. Sejak 2018, lebih dari 100 klien sudah
+            lewat dua metode klasik Tionghoa. Sejak 2018, lebih dari 2000 klien sudah
             berkonsultasi di sini.
           </p>
           <p className="mt-4 max-w-xl font-body text-base leading-relaxed text-ink/85 md:text-lg">
